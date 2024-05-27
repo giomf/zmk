@@ -16,3 +16,7 @@ __pycache__
 
 # clangd
 app/.cache/
+
+# nix 
+.direnv/
+.envrc
