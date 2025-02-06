@@ -1,0 +1,13 @@
+default:
+    @just --list
+
+mount:
+  udisksctl mount -b /dev/sda
+
+left: mount
+  west build -d "build/left" -p -b nice_nano_v2 -- -DSHIELD="splitkb_aurora_corne_left" -DZMK_CONFIG=../../zmk-corne-config/config/
+  cp "build/left/zephyr/zmk.uf2" "/run/media/guif/NICENANO/"
+
+right: mount
+  west build -d "build/right" -p -b nice_nano_v2 -- -DSHIELD="splitkb_aurora_corne_right" -DZMK_CONFIG=../../zmk-corne-config/config/
+  cp "build/right/zephyr/zmk.uf2" "/run/media/guif/NICENANO/"

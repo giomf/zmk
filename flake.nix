@@ -7,14 +7,30 @@
     flake-utils.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachDefaultSystem (system:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      flake-utils,
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
         pp = pkgs.python312Packages;
-      in {
+      in
+      {
         devShells.default = pkgs.mkShell {
-          buildInputs = [ pkgs.cmake pkgs.gcc-arm-embedded pkgs.ninja pp.pyelftools pp.venvShellHook pp.virtualenv pp.west ];
+          buildInputs = [
+            pkgs.cmake
+            pkgs.gcc-arm-embedded
+            pkgs.just
+            pkgs.ninja
+            pp.pyelftools
+            pp.venvShellHook
+            pp.virtualenv
+            pp.west
+          ];
           venvDir = "./.venv";
           postVenvCreation = ''
             pip install -r zephyr/scripts/requirements.txt
@@ -25,5 +41,6 @@
             GNUARMEMB_TOOLCHAIN_PATH = pkgs.gcc-arm-embedded;
           };
         };
-      });
+      }
+    );
 }
